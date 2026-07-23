@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Argus design tokens
+   Dark-first (Linear / Vercel lineage). Semantic colors are
+   reserved: green = pass, red = fail, amber = risk, blue = info.
+   The accent (verdigris) belongs to Argus itself — AI actions,
+   focus, and interactive emphasis.
+   ============================================================ */
+
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --raised: #ffffff;
+  --line: #e6e9ef;
+  --ink: #16191f;
+  --muted: #69707d;
+  --accent: #0e9384;
+  --accent-soft: rgba(14, 147, 132, 0.1);
+  --pass: #1f9d55;
+  --fail: #d93025;
+  --warn: #b7791f;
+  --info: #2f6fed;
+  --ring: rgba(14, 147, 132, 0.35);
+}
+
+.dark {
+  --bg: #0b0d10;
+  --surface: #111419;
+  --raised: #161a21;
+  --line: #232936;
+  --ink: #e9ecf1;
+  --muted: #8a93a3;
+  --accent: #2fbfad;
+  --accent-soft: rgba(47, 191, 173, 0.12);
+  --pass: #34c759;
+  --fail: #ff453a;
+  --warn: #ffb020;
+  --info: #5b9dff;
+  --ring: rgba(47, 191, 173, 0.4);
+}
+
+* { border-color: var(--line); }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The signature: precision labels. Every piece of *data* in the UI —
+   test IDs, metrics, statuses — is set in mono, uppercase, tracked. */
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.card-hover { transition: border-color 160ms ease, transform 160ms ease; }
+.card-hover:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::selection { background: var(--accent-soft); }
+
+/* Subtle grid backdrop for the landing hero */
+.hero-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black 30%, transparent 75%);
+}
+
+/* Thin scrollbars, desktop app feel */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 480ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.rise-1 { animation-delay: 60ms; }
+.rise-2 { animation-delay: 120ms; }
+.rise-3 { animation-delay: 180ms; }
