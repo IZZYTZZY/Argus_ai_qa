@@ -11,11 +11,26 @@ class Settings(BaseSettings):
     llm_base_url: str = "https://api.openai.com/v1"
     llm_model: str = "gpt-4o-mini"
     embedding_model: str = "text-embedding-3-small"
+    # Embeddings can live on a different provider than chat (e.g. chat on
+    # OpenRouter/Groq, which serve no /embeddings route). Blank = reuse the LLM_* values.
+    embedding_base_url: str = ""
+    embedding_api_key: str = ""
+    # Some providers (e.g. Gemini) allow requesting an output size.
+    # Must equal the vector(N) column in the schema. 0 = provider default.
+    embedding_dimensions: int = 0
     cors_origins: str = "http://localhost:3000"
     redis_url: str = ""
 
     class Config:
         env_file = ".env"
+
+    @property
+    def embed_base_url(self) -> str:
+        return self.embedding_base_url or self.llm_base_url
+
+    @property
+    def embed_api_key(self) -> str:
+        return self.embedding_api_key or self.llm_api_key
 
     @property
     def cors_list(self) -> list[str]:
